@@ -72,7 +72,7 @@ http.createServer(function serverFile(req, res) {
     return proxy(req, res);
   }
   var uri = url.parse(req.url).pathname;
-  var filename = path.join(process.cwd(), publicDir, uri);
+  var filename = path.join(__dirname, publicDir, uri);
 
   fs.exists(filename, function(exists) {
     // proxy if file does not exist
