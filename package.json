@@ -1,0 +1,24 @@
+{
+  "name": "etcd-browser",
+  "version": "1.0.0",
+  "description": "A fork of https://github.com/henszey/etcd-browser tool",
+  "main": "server.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezarya/etcd-browser.git"
+  },
+  "keywords": [
+    "etcd-browser"
+  ],
+  "author": "https://github.com/henszey",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/ezarya/etcd-browser/issues"
+  },
+  "homepage": "https://github.com/ezarya/etcd-browser#readme"
+}
