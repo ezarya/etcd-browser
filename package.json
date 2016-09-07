@@ -1,6 +1,6 @@
 {
   "name": "etcd-browser",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A fork of https://github.com/henszey/etcd-browser tool",
   "main": "server.js",
   "dependencies": {},
