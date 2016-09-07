@@ -3,9 +3,19 @@ var path = require('path');
 var fs = require('fs');
 var http = require('http');
 
-var ca_file = process.env.ETCDCTL_CA_FILE || false;
-var key_file = process.env.ETCDCTL_KEY_FILE || false;
-var cert_file = process.env.ETCDCTL_CERT_FILE || false;
+var args = process.argv.slice(2).reduce(function(result, value, i, args) {
+  if (value.indexOf('--') === 0) {
+    result[value.substr(2)] = null;
+  } else if (i !== 0 && args[i - 1].indexOf('--') === 0) {
+    result[args[i - 1].substr(2)] = value;
+  }
+
+  return result;
+}, {})
+
+var ca_file = process.env.ETCDCTL_CA_FILE || args['etcdctl-ca-file'] || false;
+var key_file = process.env.ETCDCTL_KEY_FILE || args['etcdctl-key-file'] || false;
+var cert_file = process.env.ETCDCTL_CERT_FILE || args['etcdctl-cert-file'] || false;
 
 var requester = http.request;
 if(cert_file) {
@@ -27,9 +37,9 @@ if(cert_file) {
   }
 }
 
-var etcdHost = process.env.ETCD_HOST || '172.17.42.1';
-var etcdPort = process.env.ETCD_PORT || 4001;
-var serverPort = process.env.SERVER_PORT || 8000;
+var etcdHost = process.env.ETCD_HOST || args['etcd-host'] || '127.0.0.1';
+var etcdPort = process.env.ETCD_PORT || args['etcd-port'] || 2379;
+var serverPort = process.env.SERVER_PORT || args['server-port'] || 8000;
 var publicDir = 'frontend';
 var authUser = process.env.AUTH_USER;
 var authPass = process.env.AUTH_PASS;
