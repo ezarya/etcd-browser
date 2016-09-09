@@ -11,7 +11,7 @@ var args = process.argv.slice(2).reduce(function(result, value, i, args) {
   }
 
   return result;
-}, {})
+}, {});
 
 var ca_file = process.env.ETCDCTL_CA_FILE || args['etcdctl-ca-file'] || false;
 var key_file = process.env.ETCDCTL_KEY_FILE || args['etcdctl-key-file'] || false;
@@ -39,12 +39,13 @@ if(cert_file) {
 
 var etcdHost = process.env.ETCD_HOST || args['etcd-host'] || '127.0.0.1';
 var etcdPort = process.env.ETCD_PORT || args['etcd-port'] || 2379;
+var etcdUser = process.env.ETCD_USER || args['etcd-user'] || 2379;
+var etcdPass = process.env.ETCD_PASS || args['etcd-pass'] || 2379;
+
 var serverPort = process.env.SERVER_PORT || args['server-port'] || 8000;
 var publicDir = 'frontend';
-var authUser = process.env.AUTH_USER;
-var authPass = process.env.AUTH_PASS;
-
-
+var authUser = process.env.AUTH_USER || args['auth-user'];
+var authPass = process.env.AUTH_PASS || args['auth-pass'];
 
 var mimeTypes = {
   "html": "text/html",
@@ -101,6 +102,10 @@ function proxy(client_req, client_res) {
     opts.key = fs.readFileSync(key_file);
     opts.ca = fs.readFileSync(ca_file);
     opts.cert = fs.readFileSync(cert_file);
+  }
+
+  if(etcdUser && etcdPass) {
+    opts.auth = etcdUser + ':' + etcdPass;
   }
 
   client_req.pipe(requester(opts, function(res) {
